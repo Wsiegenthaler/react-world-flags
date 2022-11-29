@@ -6,7 +6,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import countries from 'svg-country-flags/countries.json'
 
-import Flag from './Flag'
+import Flag from './index-cjs'
 
 it('renders the norwegian flag correctly', () => {
   const flag = renderer.create(<Flag code="no" height="42" />).toJSON()

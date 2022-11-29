@@ -2,7 +2,7 @@
 /* eslint-disable better/explicit-return */
 /* eslint-disable fp/no-unused-expression */
 
-import flags from './flags'
+import flags from './profiles/flags'
 
 describe('flags', () => {
   it('exports the norwegian flag', () => {

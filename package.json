@@ -1,8 +1,17 @@
 {
-  "name": "react-world-flags",
-  "version": "1.5.1",
+  "name": "@weston/react-world-flags",
+  "version": "2.0.0",
   "description": "SVG flags of the world for react",
-  "main": "dist/react-world-flags.js",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    "types": "./types/index.d.ts",
+    "import": "./dist/esm/src/index.js",
+    "require": "./dist/cjs/index.js",
+    "default": "./dist/cjs/index.js"
+  },
   "jest": {
     "moduleNameMapper": {
       "\\.(svg)$": "<rootDir>/src/__mocks__/fileMock.js"
@@ -10,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smucode/react-world-flags.git"
+    "url": "git+https://github.com/wsiegenthaler/react-world-flags.git"
   },
   "keywords": [
     "react",
@@ -23,13 +32,12 @@
   "author": "SMU",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/smucode/react-world-flags/issues"
+    "url": "https://github.com/wsiegenthaler/react-world-flags/issues"
   },
-  "homepage": "https://github.com/smucode/react-world-flags#readme",
+  "homepage": "https://github.com/wsiegenthaler/react-world-flags#readme",
   "dependencies": {
     "svg-country-flags": "^1.2.10",
-    "svgo": "^2.8.0",
-    "world-countries": "^4.0.0"
+    "svgo": "^2.8.0"
   },
   "peerDependencies": {
     "react": ">=0.14"
@@ -40,22 +48,37 @@
     "@babel/node": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.16.7",
-    "babel-loader": "^8.2.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-image": "^3.0.1",
+    "@rollup/plugin-json": "^5.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "jest": "^28.1.0",
+    "pako": "^2.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-test-renderer": "^18.1.0",
-    "svg-url-loader": "^7.1.1",
-    "webpack": "^5.72.1",
-    "webpack-cli": "^4.9.2"
+    "rollup": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "sharp": "^0.31.2",
+    "world-countries": "^4.0.0"
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack",
-    "gen": "babel-node scripts/genFlagExports.js",
-    "build-demo": "webpack --config docs/webpack.config.js",
-    "pre-publish": "npm run compress && npm run gen && npm run test && npm run build && npm run build-demo",
+    "build": "rollup -c rollup.config.mjs",
+    "gen": "npm run gen-country-codes && npm run gen-svg-flags && npm run gen-raster-flags && npm run gen-country-flags",
+    "gen-svg-flags": "babel-node scripts/genFlagExports.js",
+    "gen-raster-flags": "node --experimental-json-modules scripts/genRasterFlags.mjs",
+    "gen-country-flags": "node --experimental-json-modules scripts/genCountryFlags.mjs",
+    "gen-country-codes": "node --experimental-json-modules scripts/genCountryCodes.mjs",
+    "pre-publish": "npm run compress && npm run gen && npm run test && npm run build",
     "compress": "rm -f ./src/svgs/* && npx svgo --multipass -f node_modules/svg-country-flags/svg/ ./src/svgs && (cd ./src/svgs && sed -i -e \"s/-inkscape-font-specification:'Narkisim, Normal'//g\" *) && cp node_modules/svg-country-flags/svg/si.svg ./src/svgs",
     "nocompress": "cp node_modules/svg-country-flags/svg/*.svg ./src/svgs"
-  }
+  },
+  "files": [
+    "./src",
+    "./types",
+    "./docs",
+    "./dist"
+  ]
 }

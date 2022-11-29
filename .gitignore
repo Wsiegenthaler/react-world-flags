@@ -1,4 +1,12 @@
 node_modules
 npm-debug.log
 .DS_Store
+dist/*
+src/CountryFlags.mjs
+src/country.js
+src/profiles/*
+types/country-flags.d.ts
 src/svgs/*.svg-e*
+src/webp/**/*
+src/jpg/**/*
+src/png/**/*
